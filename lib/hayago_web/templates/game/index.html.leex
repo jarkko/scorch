@@ -14,22 +14,23 @@
 <div class="board <%= @state.current %>">
   <%= for {value, index} <- Enum.with_index(@state.positions) do %>
     <%= if Hayago.Game.legal?(@game, index) do %>
-      <button phx-click="place" phx-value="<%= index %>" class="<%= value %>"></button>
+      <button phx-click="place" phx-value-index="<%= index %>" class="<%= value %>"></button>
     <% else %>
       <button class="<%= value %>" disabled="disabled"></button>
     <% end %>
   <% end %>
 </div>
 
+
 <div class="history">
   <%= if Hayago.Game.history?(@game, @game.index + 1) do %>
-    <button phx-click="jump" phx-value="<%= @game.index + 1%>">Undo</button>
+    <button phx-click="jump" phx-value-destination="<%= @game.index + 1 %>">Undo</button>
   <% else %>
     <button disabled="disabled">Undo</button>
   <% end %>
 
   <%= if Hayago.Game.history?(@game, @game.index - 1) do %>
-    <button phx-click="jump" phx-value="<%= @game.index - 1%>">Redo</button>
+    <button phx-click="jump" phx-value-destination="<%= @game.index - 1 %>">Redo</button>
   <% else %>
     <button disabled="disabled">Redo</button>
   <% end %>
