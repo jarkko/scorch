@@ -1,0 +1,37 @@
+<div class="captures">
+  <div>
+    <%= for _ <- 1..@state.captures.black, @state.captures.black > 0 do %>
+      <span class="black"></span>
+    <% end %>
+  </div>
+  <div>
+    <%= for _ <- 1..@state.captures.white, @state.captures.white > 0 do %>
+      <span class="white"></span>
+    <% end %>
+  </div>
+</div>
+
+<div class="board <%= @state.current %>">
+  <%= for {value, index} <- Enum.with_index(@state.positions) do %>
+    <%= if Hayago.Game.legal?(@game, index) do %>
+      <button phx-click="place" phx-value-index="<%= index %>" class="<%= value %>"></button>
+    <% else %>
+      <button class="<%= value %>" disabled="disabled"></button>
+    <% end %>
+  <% end %>
+</div>
+
+
+<div class="history">
+  <%= if Hayago.Game.history?(@game, @game.index + 1) do %>
+    <button phx-click="jump" phx-value-destination="<%= @game.index + 1 %>">Undo</button>
+  <% else %>
+    <button disabled="disabled">Undo</button>
+  <% end %>
+
+  <%= if Hayago.Game.history?(@game, @game.index - 1) do %>
+    <button phx-click="jump" phx-value-destination="<%= @game.index - 1 %>">Redo</button>
+  <% else %>
+    <button disabled="disabled">Redo</button>
+  <% end %>
+</div>

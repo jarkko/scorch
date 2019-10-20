@@ -9,7 +9,9 @@ defmodule Hayago.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      HayagoWeb.Endpoint
+      HayagoWeb.Endpoint,
+      {Registry, keys: :unique, name: Hayago.GameRegistry},
+      {DynamicSupervisor, strategy: :one_for_one, name: Hayago.GameSupervisor}
       # Starts a worker by calling: Hayago.Worker.start_link(arg)
       # {Hayago.Worker, arg},
     ]
